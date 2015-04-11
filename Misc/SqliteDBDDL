@@ -1,0 +1,100 @@
+
+CREATE TABLE BodyType (
+	Id integer NOT NULL,
+	BodyTypeString varchar(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+CREATE TABLE Brand (
+	Id integer NOT NULL,
+	BrandString varchar(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+CREATE TABLE ConditionType (
+	Id integer NOT NULL,
+	ConditionString varchar(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE FuelType (
+	Id integer NOT NULL,
+	FuelTypeString varchar(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+CREATE TABLE Location (
+	Id integer NOT NULL,
+	LocationString varchar(50) NOT NULL,
+	PRIMARY KEY (Id)
+);
+CREATE TABLE TransmissionType (
+	Id integer NOT NULL,
+	TransmissionTypeString varchar(20),
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE VehicleType (
+	Id integer NOT NULL,
+	TypeString varchar(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE Favourite (
+	Id integer NOT NULL,
+	UserId integer NOT NULL,
+	AdvertisementId integer NOT NULL,
+	PRIMARY KEY (Id),
+	FOREIGN KEY (AdvertisementId) REFERENCES Advertisement (Id),
+	FOREIGN KEY (UserId) REFERENCES User (Id)
+);
+
+CREATE TABLE User (
+	Id integer NOT NULL,
+	UName varchar(50) NOT NULL,
+	Email varchar(50) NOT NULL,
+	PhoneNo1 varchar(10) NOT NULL,
+	PhoneNo2 varchar(10),
+	PhoneNo3 varchar(10) NOT NULL,
+	UType varchar(10) NOT NULL,
+	LocationId integer,
+	Password varchar(1000) NOT NULL,
+	CreatedDate varchar(50) NOT NULL,
+	ModifiedDate varchar(50) NOT NULL,
+	PRIMARY KEY (Id),
+	FOREIGN KEY (LocationId) REFERENCES Location (Id)
+);
+
+CREATE TABLE Advertisement (
+	Id integer NOT NULL,
+	UserId integer NOT NULL,
+	VehicleTypeId integer NOT NULL,
+	Title varchar(30) NOT NULL,
+	Description varchar(100) NOT NULL,
+	Price decimal(10) NOT NULL,
+	IsPriceNegotiable integer NOT NULL,
+	ImageLocation varchar(1000) NOT NULL,
+	BrandId integer NOT NULL,
+	Model varchar(20) NOT NULL,
+	ModelYear integer NOT NULL,
+	BodyTypeId integer NOT NULL,
+	ConditionId integer NOT NULL,
+	TransmissionTypeId integer NOT NULL,
+	FuelTypeId integer NOT NULL,
+	EngineCapacity integer NOT NULL,
+	Milage integer NOT NULL,
+	CreatedDate varchar(50) NOT NULL,
+	ModifiedDate varchar(50) NOT NULL,
+	PRIMARY KEY (Id),
+	FOREIGN KEY (BodyTypeId) REFERENCES BodyType (Id),
+	FOREIGN KEY (BrandId) REFERENCES Brand (Id),
+	FOREIGN KEY (VehicleTypeId) REFERENCES VehicleType (Id),
+	FOREIGN KEY (FuelTypeId) REFERENCES FuelType (Id),
+	FOREIGN KEY (UserId) REFERENCES User (Id),
+	FOREIGN KEY (TransmissionTypeId) REFERENCES TransmissionType (Id),
+	FOREIGN KEY (ConditionId) REFERENCES ConditionType (Id)
+);
+
+
+ALTER TABLE Advertisement
+	ADD FOREIGN KEY (ConditionId) 
+	REFERENCES ConditionType (Id);
+
+
