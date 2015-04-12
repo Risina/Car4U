@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import java.util.*;
 
+import client.cfu.com.cfubase.entities.CFUser;
+
 /**
  * 
  */

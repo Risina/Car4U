@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/flag"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:contentDescription="@string/hello_world"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"

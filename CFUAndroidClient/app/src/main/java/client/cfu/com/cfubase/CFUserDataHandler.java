@@ -3,6 +3,8 @@ package client.cfu.com.cfubase;
 import java.math.BigInteger;
 import java.util.*;
 
+import client.cfu.com.cfubase.entities.CFUser;
+
 /**
  * 
  */

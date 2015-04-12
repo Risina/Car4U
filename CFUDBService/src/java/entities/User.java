@@ -160,10 +160,6 @@ public class User implements Serializable {
         this.uType = uType;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }

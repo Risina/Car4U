@@ -20,7 +20,11 @@ public class LocationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+        loadLocations();
 
+    }
+
+    public void loadLocations() {
         Intent intent = getIntent();
         List<String> locationList = intent.getStringArrayListExtra("locations");
 
@@ -31,15 +35,15 @@ public class LocationActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences.Editor editor = getSharedPreferences("com.cfu.location", MODE_PRIVATE).edit();
+//                SharedPreferences.Editor editor = getSharedPreferences("com.cfu.location", MODE_PRIVATE).edit();
 //                editor.putInt("location", position);
 //                editor.commit();
+//                Intent goBackIntent = new Intent();
+//                setResult(RESULT_OK);
                 finish();
             }
         });
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
