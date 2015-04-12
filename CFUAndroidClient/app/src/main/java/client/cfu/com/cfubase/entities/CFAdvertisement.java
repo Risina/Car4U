@@ -1,7 +1,13 @@
 package client.cfu.com.cfubase.entities;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 public class CFAdvertisement {
@@ -246,29 +252,8 @@ public class CFAdvertisement {
         this.userId = userId;
     }
 
-
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
-
-
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CFAdvertisement)) {
-            return false;
-        }
-        CFAdvertisement other = (CFAdvertisement) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-
-    public String toString() {
-        return "Advertisement[ id=" + id + " ]";
-    }
-
 }

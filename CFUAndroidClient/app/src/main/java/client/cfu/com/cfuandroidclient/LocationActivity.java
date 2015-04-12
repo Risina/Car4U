@@ -20,8 +20,17 @@ public class LocationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         loadLocations();
 
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        //closing transition animations
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
     public void loadLocations() {

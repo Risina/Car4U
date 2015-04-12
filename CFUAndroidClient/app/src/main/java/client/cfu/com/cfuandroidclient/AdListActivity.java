@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -24,7 +25,7 @@ import client.cfu.com.cfubase.CFMinorDataHandler;
 import client.cfu.com.cfubase.entities.CFAdvertisement;
 
 
-public class MainActivity extends ActionBarActivity {
+public class AdListActivity extends ActionBarActivity {
 
     String[] currency;
     int[] flags;
@@ -51,55 +52,22 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         spinner = (ProgressBar) findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
 
-
-
-//        flags = new int[]{
-//                R.drawable.india,
-//                R.drawable.pakistan,
-//                R.drawable.srilanka,
-//                R.drawable.china,
-//                R.drawable.bangladesh,
-//                R.drawable.nepal,
-//                R.drawable.afghanistan,
-//                R.drawable.nkorea,
-//                R.drawable.skorea,
-//                R.drawable.japan
-//        };
-//
-//        // Array of strings to store currencies
-//        currency = new String[]{
-//                "Indian Rupee",
-//                "Pakistani Rupee",
-//                "Sri Lankan Rupee",
-//                "Renminbi",
-//                "Bangladeshi Taka",
-//                "Nepalese Rupee",
-//                "Afghani",
-//                "North Korean Won",
-//                "South Korean Won",
-//                "Japanese Yen"
-//        };
-//
-//        countries = new String[]{
-//                "India",
-//                "Pakistan",
-//                "Sri Lanka",
-//                "China",
-//                "Bangladesh",
-//                "Nepal",
-//                "Afghanistan",
-//                "North Korea",
-//                "South Korea",
-//                "Japan"
-//        };
-
         DataAsyncTask asyncTask = new DataAsyncTask();
         asyncTask.execute();
+    }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        //closing transition animations
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
 
@@ -118,48 +86,34 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == android.R.id.home) {
+            Intent intent = new Intent(this, FrontActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void createList() {
-//        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-//
-//        for (int i = 0; i < 6; i++) {
-//            HashMap<String, String> hm = new HashMap<String, String>();
-//            hm.put("txt", "Country : " + countries[i]);
-//            hm.put("cur", "Currency : " + bodyTypes.get(i));
-//            hm.put("flag", Integer.toString(flags[i]));
-//            aList.add(hm);
-//        }
-//
-//        // Keys used in Hashmap
-//        String[] from = {"flag", "txt", "cur"};
-//
-//        int[] to = {R.id.flag, R.id.txt, R.id.cur};
-
-//        SimpleAdapter adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.ad_list, from, to);
-
         AdAdapter adAdapter = new AdAdapter(getBaseContext(), R.layout.ad_list, adList);
         ListView listView = (ListView) findViewById(R.id.listview);
 
         listView.setAdapter(adAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                loadAdvertisement(position);
+            }
+        });
+
     }
 
-    private void loadLocations() {
-        SharedPreferences preferences = getSharedPreferences("com.cfu.location", MODE_PRIVATE);
-        int location = preferences.getInt("location", 0);
-        if (location == 0) {
-            Intent intent = new Intent(this, LocationActivity.class);
-            intent.putStringArrayListExtra("locations", locations);
-            startActivityForResult(intent, LOCATION_REQ_CODE);
-        }
+    private void loadAdvertisement(int position) {
+        Intent intent = new Intent(this, AdViewActivity.class);
+        intent.putExtra("advertisement", adList.get(position).toJson());
+        startActivity(intent);
     }
-
 
     private class DataAsyncTask extends AsyncTask<String, String, String> {
 
@@ -170,9 +124,6 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
-
-            locations = new ArrayList<>(CFMinorDataHandler.getLocations());
             vehicleTypes = CFMinorDataHandler.getVehicleTypes();
             brands = CFMinorDataHandler.getBrands();
             bodyTypes = CFMinorDataHandler.getBodyTypes();
@@ -189,8 +140,6 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             createList();
             spinner.setVisibility(View.GONE);
-            loadLocations();
-
         }
     }
 
