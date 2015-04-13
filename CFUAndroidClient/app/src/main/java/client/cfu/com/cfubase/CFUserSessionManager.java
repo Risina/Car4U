@@ -12,61 +12,34 @@ import client.cfu.com.cfubase.entities.CFUser;
  */
 public class CFUserSessionManager {
 
-    /**
-     * 
-     */
-    public CFUserSessionManager() {
+    private static CFUserSessionManager sessionManager = new CFUserSessionManager();
+    private CFUserSessionManager() {
     }
 
-    /**
-     * 
-     */
-    private Context applicationContext;
+    private static Context applicationContext;
 
-    /**
-     * 
-     */
     private SharedPreferences pref;
 
-
-    /**
-     * @param String email 
-     * @param String password 
-     * @return
-     */
     public void createUserLoginSession(String email, String password) {
-        // TODO implement here
+        CFHttpManager.authenticate(email, password);
     }
 
-    /**
-     * @return
-     */
-    public CFUserSessionManager getInstance() {
+    public static CFUserSessionManager getInstance(Context appContext) {
         // TODO implement here
-        return null;
+        applicationContext = appContext;
+        return sessionManager;
     }
 
-    /**
-     * @param String email 
-     * @param String password 
-     * @return
-     */
     private Boolean authenticate(String email, String password) {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
     public CFUser getUser() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
     public void logoutUser() {
         // TODO implement here
     }

@@ -25,7 +25,7 @@ import client.cfu.com.cfubase.CFMinorDataHandler;
 import client.cfu.com.cfubase.entities.CFAdvertisement;
 
 
-public class AdListActivity extends ActionBarActivity {
+public class AdListActivity extends BaseActivity {
 
     String[] currency;
     int[] flags;

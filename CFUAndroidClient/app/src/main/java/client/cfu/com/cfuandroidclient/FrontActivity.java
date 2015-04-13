@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import client.cfu.com.cfubase.CFAdvertisementDataHandler;
 import client.cfu.com.cfubase.CFMinorDataHandler;
 
 
-public class FrontActivity extends ActionBarActivity {
+public class FrontActivity extends BaseActivity {
 
 
     public ArrayList<String> locations;
@@ -25,9 +27,13 @@ public class FrontActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_front);
+
+
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
         LocationAsyncTask locationAsyncTask = new LocationAsyncTask();
         locationAsyncTask.execute();
 
@@ -38,6 +44,8 @@ public class FrontActivity extends ActionBarActivity {
                 loadAdvertisements();
             }
         });
+
+
     }
 
     @Override
