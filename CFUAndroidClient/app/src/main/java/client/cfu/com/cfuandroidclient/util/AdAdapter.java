@@ -8,11 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import client.cfu.com.cfuandroidclient.R;
 import client.cfu.com.cfubase.entities.CFAdvertisement;
+import client.cfu.com.constants.CFConstants;
 
 /**
  * Created by Risina on 4/12/15.
@@ -20,6 +23,7 @@ import client.cfu.com.cfubase.entities.CFAdvertisement;
 public class AdAdapter extends ArrayAdapter<CFAdvertisement> {
 
     private List<CFAdvertisement> adList;
+    Context context;
 
     private static class ViewHolder {
         private TextView itemView;
@@ -27,6 +31,7 @@ public class AdAdapter extends ArrayAdapter<CFAdvertisement> {
 
     public AdAdapter(Context context, int textViewResourceId, List<CFAdvertisement> items) {
         super(context, textViewResourceId, items);
+        this.context = context;
         this.adList = items;
     }
 
@@ -45,7 +50,10 @@ public class AdAdapter extends ArrayAdapter<CFAdvertisement> {
             textView.setText(adList.get(position).getDescription());
 
             ImageView imageView = (ImageView)v.findViewById(R.id.flag);
-            imageView.setImageResource(R.drawable.india);
+//            imageView.setImageResource(R.drawable.india);
+
+            Picasso.with(context).load(CFConstants.SERVICE_ROOT+"CFUDBService/images/cfu/nepal.png").into(imageView);
+
         }
         return v;
     }

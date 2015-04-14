@@ -1,11 +1,11 @@
 package client.cfu.com.cfubase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
-import java.util.*;
-
 import client.cfu.com.cfubase.entities.CFUser;
+import client.cfu.com.constants.CFConstants;
 
 /**
  * 
@@ -20,8 +20,18 @@ public class CFUserSessionManager {
 
     private SharedPreferences pref;
 
-    public void createUserLoginSession(String email, String password) {
-        CFHttpManager.authenticate(email, password);
+    public String createUserLoginSession(String email, String password) {
+
+        String status = CFHttpManager.authenticate(email, password);
+
+        if(status.equals(CFConstants.STATUS_OK)) {
+            SharedPreferences.Editor editor = applicationContext.getSharedPreferences("com.cfu.user", Context.MODE_PRIVATE).edit();
+            editor.putString("userEmail", email);
+            editor.putString("userPw", password);
+            editor.apply();
+            return status;
+        }
+        return status;
     }
 
     public static CFUserSessionManager getInstance(Context appContext) {

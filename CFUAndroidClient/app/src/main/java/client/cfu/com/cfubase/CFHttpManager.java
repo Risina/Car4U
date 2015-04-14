@@ -1,47 +1,79 @@
 package client.cfu.com.cfubase;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
-import java.net.ResponseCache;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
-import client.cfu.com.cfuandroidclient.R;
+import client.cfu.com.constants.CFConstants;
 
 /**
  * 
  */
 public class CFHttpManager {
 
+
     protected CFHttpManager() {
     }
 
     protected static String authenticate(String email, String password) {
-        // TODO implement here
-        return "";
+
+        BufferedReader reader = null;
+        String status = "";
+//
+//
+//        email = "risina.prime@gmail.com";
+//        password = "123456";
+
+        byte[] loginBytes = (email+":"+password).getBytes();
+        StringBuilder loginBuilder = new StringBuilder()
+                .append("Basic ")
+                .append(Base64.encodeToString(loginBytes, Base64.DEFAULT));
+
+        try {
+
+            URL url = new URL(CFConstants.SERVICE_ROOT +"CFUDBService/webresources/auth/basic");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.addRequestProperty("Authorization", loginBuilder.toString());
+
+            StringBuilder sb = new StringBuilder();
+            reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+            String line = reader.readLine();
+            if(line.equals(email)){
+                status = CFConstants.STATUS_OK;
+            }
+            else {
+                status = CFConstants.STATUS_ERROR;
+            }
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        } finally {
+            if(reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return status;
     }
 
     protected static String getData(String uri, HashMap<String,String> filterParams) {

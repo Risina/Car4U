@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPhoneNo2", query = "SELECT u FROM User u WHERE u.phoneNo2 = :phoneNo2"),
     @NamedQuery(name = "User.findByPhoneNo3", query = "SELECT u FROM User u WHERE u.phoneNo3 = :phoneNo3"),
     @NamedQuery(name = "User.findByUType", query = "SELECT u FROM User u WHERE u.uType = :uType"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByCreatedDate", query = "SELECT u FROM User u WHERE u.createdDate = :createdDate"),
     @NamedQuery(name = "User.findByModifiedDate", query = "SELECT u FROM User u WHERE u.modifiedDate = :modifiedDate")})
 public class User implements Serializable {
@@ -162,6 +161,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getPassword() {
+        return password;
     }
 
     public Date getCreatedDate() {

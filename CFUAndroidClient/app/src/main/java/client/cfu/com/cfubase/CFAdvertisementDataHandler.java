@@ -13,6 +13,7 @@ import java.util.*;
 
 import client.cfu.com.cfubase.entities.CFAdvertisement;
 import client.cfu.com.cfubase.entities.CFEntityHelper;
+import client.cfu.com.constants.CFConstants;
 
 /**
  * 
@@ -38,7 +39,7 @@ public class CFAdvertisementDataHandler {
     public List<CFAdvertisement> getAdvertisements() {
         List<CFAdvertisement> advertisementList = new ArrayList<>();
 
-        String result = CFHttpManager.getData("http://192.168.1.2:8200/CFUDBService/webresources/entities.advertisement", new HashMap<String, String>());
+        String result = CFHttpManager.getData(CFConstants.SERVICE_ROOT+"CFUDBService/webresources/entities.advertisement", new HashMap<String, String>());
 
         List<JSONObject> advertisementObjects = getValuesFromJsonString(result);
         for (JSONObject obj:advertisementObjects) {

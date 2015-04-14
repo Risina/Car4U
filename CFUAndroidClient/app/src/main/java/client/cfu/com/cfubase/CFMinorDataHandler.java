@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.*;
 
+import client.cfu.com.constants.CFConstants;
+
 /**
  * 
  */
@@ -22,7 +24,7 @@ public class CFMinorDataHandler {
      */
     public static List<String> getLocations() {
 
-        String result = CFHttpManager.getData("http://192.168.1.2:8200/CFUDBService/webresources/entities.location", new HashMap<String, String>());
+        String result = CFHttpManager.getData(CFConstants.SERVICE_ROOT+"CFUDBService/webresources/entities.location", new HashMap<String, String>());
         return getValuesFromJsonString(result, "locationString");
     }
 
@@ -46,7 +48,7 @@ public class CFMinorDataHandler {
      * @return
      */
     public static List<String> getBodyTypes() {
-        String result = CFHttpManager.getData("http://192.168.1.2:8200/CFUDBService/webresources/entities.bodytype", new HashMap<String, String>());
+        String result = CFHttpManager.getData(CFConstants.SERVICE_ROOT +"CFUDBService/webresources/entities.bodytype", new HashMap<String, String>());
         return getValuesFromJsonString(result, "bodyTypeString");
     }
 

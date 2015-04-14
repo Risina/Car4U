@@ -23,6 +23,7 @@ import client.cfu.com.cfuandroidclient.util.AdAdapter;
 import client.cfu.com.cfubase.CFAdvertisementDataHandler;
 import client.cfu.com.cfubase.CFMinorDataHandler;
 import client.cfu.com.cfubase.entities.CFAdvertisement;
+import client.cfu.com.util.CFPopupHelper;
 
 
 public class AdListActivity extends BaseActivity {
@@ -56,8 +57,7 @@ public class AdListActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        spinner = (ProgressBar) findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.VISIBLE);
+        CFPopupHelper.showProgressSpinner(this, View.VISIBLE);
 
         DataAsyncTask asyncTask = new DataAsyncTask();
         asyncTask.execute();
@@ -124,12 +124,12 @@ public class AdListActivity extends BaseActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            vehicleTypes = CFMinorDataHandler.getVehicleTypes();
-            brands = CFMinorDataHandler.getBrands();
-            bodyTypes = CFMinorDataHandler.getBodyTypes();
-            transmissionTypes = CFMinorDataHandler.getTransmissionTypes();
-            conditions = CFMinorDataHandler.getConditions();
-            fuelTypes = CFMinorDataHandler.getFuelTypes();
+//            vehicleTypes = CFMinorDataHandler.getVehicleTypes();
+//            brands = CFMinorDataHandler.getBrands();
+//            bodyTypes = CFMinorDataHandler.getBodyTypes();
+//            transmissionTypes = CFMinorDataHandler.getTransmissionTypes();
+//            conditions = CFMinorDataHandler.getConditions();
+//            fuelTypes = CFMinorDataHandler.getFuelTypes();
 
             CFAdvertisementDataHandler adh = new CFAdvertisementDataHandler();
             adList = adh.getAdvertisements();
@@ -139,7 +139,8 @@ public class AdListActivity extends BaseActivity {
         @Override
         protected void onPostExecute(String result) {
             createList();
-            spinner.setVisibility(View.GONE);
+            CFPopupHelper.showProgressSpinner(AdListActivity.this, View.GONE);
+//            spinner.setVisibility(View.GONE);
         }
     }
 

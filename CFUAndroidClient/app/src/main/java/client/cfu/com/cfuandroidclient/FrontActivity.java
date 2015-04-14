@@ -30,12 +30,9 @@ public class FrontActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front);
-
-
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
 
-        LocationAsyncTask locationAsyncTask = new LocationAsyncTask();
-        locationAsyncTask.execute();
+
 
         Button button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -88,37 +85,6 @@ public class FrontActivity extends BaseActivity {
 //        intent.putStringArrayListExtra("locations", locations);
         startActivity(intent);
 
-    }
-
-    private class LocationAsyncTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            locations = new ArrayList<>(CFMinorDataHandler.getLocations());
-//            vehicleTypes = CFMinorDataHandler.getVehicleTypes();
-//            brands = CFMinorDataHandler.getBrands();
-//            bodyTypes = CFMinorDataHandler.getBodyTypes();
-//            transmissionTypes = CFMinorDataHandler.getTransmissionTypes();
-//            conditions = CFMinorDataHandler.getConditions();
-//            fuelTypes = CFMinorDataHandler.getFuelTypes();
-
-//            CFAdvertisementDataHandler adh = new CFAdvertisementDataHandler();
-//            adList = adh.getAdvertisements();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-//            loadLocations();
-//            spinner.setVisibility(View.GONE);
-        }
     }
 
 }
