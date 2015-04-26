@@ -54,10 +54,10 @@ public class AdListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ad_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CFPopupHelper.showProgressSpinner(this, View.VISIBLE);
+//        CFPopupHelper.showProgressSpinner(this, View.VISIBLE);
 
         DataAsyncTask asyncTask = new DataAsyncTask();
         asyncTask.execute();
@@ -139,7 +139,7 @@ public class AdListActivity extends BaseActivity {
         @Override
         protected void onPostExecute(String result) {
             createList();
-            CFPopupHelper.showProgressSpinner(AdListActivity.this, View.GONE);
+//            CFPopupHelper.showProgressSpinner(AdListActivity.this, View.GONE);
 //            spinner.setVisibility(View.GONE);
         }
     }

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">CFU</string>
+    <string name="app_name_extended">Car 4 You</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -13,7 +14,12 @@
     <string name="login_successful">Login successful!</string>
     <string name="login_failed">Login failed!</string>
     <string name="turn_on_internet">Please turn on your internet connection.</string>
+    <string name="connection_error">Connection error please wait.</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="connection_failed">Connection failed, please restart.</string>
+    <string name="title_activity_submission">SubmissionActivity</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 
 </resources>

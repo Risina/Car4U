@@ -35,14 +35,14 @@ public class BodyTypeFacadeREST extends AbstractFacade<BodyType> {
 
     @POST
     @Override
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void create(BodyType entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void edit(@PathParam("id") Integer id, BodyType entity) {
         super.edit(entity);
     }

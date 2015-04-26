@@ -35,14 +35,14 @@ public class VehicleTypeFacadeREST extends AbstractFacade<VehicleType> {
 
     @POST
     @Override
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void create(VehicleType entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void edit(@PathParam("id") Integer id, VehicleType entity) {
         super.edit(entity);
     }

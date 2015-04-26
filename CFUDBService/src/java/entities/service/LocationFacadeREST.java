@@ -35,7 +35,7 @@ public class LocationFacadeREST extends AbstractFacade<Location> {
 
     @POST
     @Override
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void create(Location entity) {
         super.create(entity);
     }

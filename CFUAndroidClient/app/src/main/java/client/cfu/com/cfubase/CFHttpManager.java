@@ -1,6 +1,9 @@
 package client.cfu.com.cfubase;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
 import android.util.Log;
 
@@ -22,12 +25,33 @@ import java.util.*;
 import client.cfu.com.constants.CFConstants;
 
 /**
- * 
+ *
  */
 public class CFHttpManager {
 
 
     protected CFHttpManager() {
+    }
+
+    public static Boolean checkServerAvailability() {
+
+        try {
+
+            //Network is available but check if we can get access from the network.
+            URL url = new URL(CFConstants.SERVICE_ROOT +"CFUDBService");
+            HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+            urlc.setRequestProperty("Connection", "close");
+            urlc.setConnectTimeout(2000); // Timeout 2 seconds.
+            urlc.connect();
+
+            //Successful response.
+            return urlc.getResponseCode() == 200;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 
     protected static String authenticate(String email, String password) {
@@ -39,14 +63,14 @@ public class CFHttpManager {
 //        email = "risina.prime@gmail.com";
 //        password = "123456";
 
-        byte[] loginBytes = (email+":"+password).getBytes();
+        byte[] loginBytes = (email + ":" + password).getBytes();
         StringBuilder loginBuilder = new StringBuilder()
                 .append("Basic ")
                 .append(Base64.encodeToString(loginBytes, Base64.DEFAULT));
 
         try {
 
-            URL url = new URL(CFConstants.SERVICE_ROOT +"CFUDBService/webresources/auth/basic");
+            URL url = new URL(CFConstants.SERVICE_ROOT + "CFUDBService/webresources/auth/basic");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.addRequestProperty("Authorization", loginBuilder.toString());
 
@@ -54,17 +78,16 @@ public class CFHttpManager {
             reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String line = reader.readLine();
-            if(line.equals(email)){
+            if (line.equals(email)) {
                 status = CFConstants.STATUS_OK;
-            }
-            else {
+            } else {
                 status = CFConstants.STATUS_ERROR;
             }
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         } finally {
-            if(reader != null) {
+            if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
@@ -76,7 +99,7 @@ public class CFHttpManager {
         return status;
     }
 
-    protected static String getData(String uri, HashMap<String,String> filterParams) {
+    protected static String getData(String uri, HashMap<String, String> filterParams) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -93,8 +116,7 @@ public class CFHttpManager {
             int status = httpResponse.getStatusLine().getStatusCode();
             if (status == 200) {
                 result = EntityUtils.toString(httpResponse.getEntity());
-            }
-            else {
+            } else {
                 result = "Did not work!";
             }
 
@@ -105,7 +127,7 @@ public class CFHttpManager {
         return result;
     }
 
-    protected static String getDataWithAuthCredentials(String uri, HashMap<String,String> filterParams, String email, String password) {
+    protected static String getDataWithAuthCredentials(String uri, HashMap<String, String> filterParams, String email, String password) {
         // TODO implement here
         return "";
     }

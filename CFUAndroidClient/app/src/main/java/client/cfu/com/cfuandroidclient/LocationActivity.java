@@ -13,26 +13,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import client.cfu.com.cfuandroidclient.util.LocationAdapter;
 import client.cfu.com.cfubase.CFMinorDataHandler;
+import client.cfu.com.constants.CFConstants;
 import client.cfu.com.util.CFPopupHelper;
 
 
 public class LocationActivity extends Activity {
 
-    List<String> locations = null;
+    List<JSONObject> locations = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
-
-        CFPopupHelper.showProgressSpinner(this, View.VISIBLE);
-        new LocationAsyncTask().execute();
-
-
+        loadLocations();
     }
 
     @Override
@@ -41,14 +43,15 @@ public class LocationActivity extends Activity {
         super.onPause();
         //closing transition animations
         overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
+
     }
 
     public void loadLocations() {
 //        Intent intent = getIntent();
 //        List<String> locationList = intent.getStringArrayListExtra("locations");
 
-        ListView listView = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, locations);
+        ListView listView = (ListView)findViewById(R.id.locationListView);
+        LocationAdapter adapter = new LocationAdapter(this, android.R.layout.simple_list_item_1, CFConstants.LOCATIONS);
         listView.setAdapter(adapter);
         final Activity thisActivity = this;
 
@@ -58,6 +61,7 @@ public class LocationActivity extends Activity {
 //                SharedPreferences.Editor editor = getSharedPreferences("com.cfu.location", MODE_PRIVATE).edit();
 //                editor.putInt("location", position);
 //                editor.apply();
+
                 Intent intent = new Intent(thisActivity, FrontActivity.class);
                 startActivity(intent);
             }
@@ -84,39 +88,5 @@ public class LocationActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class LocationAsyncTask extends AsyncTask<String, String, String> {
-        Activity activity;
-
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            locations = new ArrayList<>(CFMinorDataHandler.getLocations());
-//            vehicleTypes = CFMinorDataHandler.getVehicleTypes();
-//            brands = CFMinorDataHandler.getBrands();
-//            bodyTypes = CFMinorDataHandler.getBodyTypes();
-//            transmissionTypes = CFMinorDataHandler.getTransmissionTypes();
-//            conditions = CFMinorDataHandler.getConditions();
-//            fuelTypes = CFMinorDataHandler.getFuelTypes();
-
-//            CFAdvertisementDataHandler adh = new CFAdvertisementDataHandler();
-//            adList = adh.getAdvertisements();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            loadLocations();
-            CFPopupHelper.showProgressSpinner(LocationActivity.this, View.GONE);
-//            spinner.setVisibility(View.GONE);
-        }
     }
 }
