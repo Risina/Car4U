@@ -5,7 +5,14 @@
  */
 package entities.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import entities.Advertisement;
+import entities.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -34,10 +41,52 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
     }
 
     @POST
-    @Override
     @Consumes({"application/json"})
-    public void create(Advertisement entity) {
-        super.create(entity);
+    public void create(String jsonString) {
+        
+        Advertisement ad = new Advertisement();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = (JsonObject)parser.parse(jsonString);
+
+        Long rowCnt= (Long) em.createNativeQuery("SELECT count(1) FROM Advertisement").getSingleResult();
+        Long id = rowCnt +1;
+        ad.setId(id);
+        User u = em.find(User.class, new Long(jsonObject.get("userId").toString()));
+        ad.setUserId(u);
+        
+        BodyType bt = em.find(BodyType.class, new Integer(jsonObject.get("bodyTypeId").toString()));
+        ConditionType con = em.find(ConditionType.class, new Integer(jsonObject.get("conditionId").toString()));
+        TransmissionType tt = em.find(TransmissionType.class, new Integer(jsonObject.get("transmissionTypeId").toString()));
+        VehicleType vt = em.find(VehicleType.class, new Integer(jsonObject.get("vehicleTypeId").toString()));
+        Brand br = em.find(Brand.class, new Integer(jsonObject.get("brandId").toString()));
+        FuelType ft = em.find(FuelType.class, new Integer(jsonObject.get("fuelTypeId").toString()));
+        
+        ad.setBodyTypeId(bt);
+        ad.setConditionId(con);
+        ad.setTransmissionTypeId(tt);
+        ad.setVehicleTypeId(vt);
+        ad.setBrandId(br);
+        ad.setFuelTypeId(ft);
+        
+        Date date = new Date();
+        ad.setCreatedDate(date);
+        ad.setModifiedDate(date);
+        
+        ad.setDescription(jsonObject.get("description").toString());
+        ad.setEngineCapacity(Integer.parseInt(jsonObject.get("engineCapacity").toString()));
+        ad.setIsPriceNegotiable(new Boolean(jsonObject.get("isPriceNegotiable").toString()));
+        ad.setMilage(Long.parseLong(jsonObject.get("milage").toString()));
+        ad.setModel(jsonObject.get("model").toString());
+        ad.setModelYear(Short.parseShort(jsonObject.get("modelYear").toString()));
+        ad.setPrice(Long.parseLong(jsonObject.get("price").toString()));
+        ad.setTitle(jsonObject.get("title").toString());
+        ad.setImageLocation("a");
+        
+        
+        
+        
+        
+        super.create(ad);
     }
 
     @PUT
