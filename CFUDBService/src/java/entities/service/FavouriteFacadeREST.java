@@ -5,8 +5,11 @@
  */
 package entities.service;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import entities.Favourite;
 import java.util.List;
+import entities.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
@@ -34,10 +37,23 @@ public class FavouriteFacadeREST extends AbstractFacade<Favourite> {
     }
 
     @POST
-    @Override
     @Consumes({"application/json"})
-    public void create(Favourite entity) {
-        super.create(entity);
+    public void create(String jsonString) {
+        
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = (JsonObject)parser.parse(jsonString);
+        Favourite favourite = new Favourite();
+        
+//        Long rowCnt= (Long) em.createNativeQuery("select last_insert_id() as last_id FROM Favourite").getSingleResult();
+//        Long id = rowCnt +1;
+//        favourite.setId(id);
+        
+        User user = em.find(User.class, new Long(jsonObject.get("userId").toString()));
+        Advertisement ad = em.find(Advertisement.class, new Long(jsonObject.get("advertisementId").toString()));
+        favourite.setUserId(user);
+        favourite.setAdvertisementId(ad);
+        
+        super.create(favourite);
     }
 
     @PUT

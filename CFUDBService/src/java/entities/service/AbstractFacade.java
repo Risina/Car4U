@@ -21,13 +21,14 @@ public abstract class AbstractFacade<T> {
     }
 
     protected abstract EntityManager getEntityManager();
-
+    
     public void create(T entity) {
         System.out.println(entity.getClass());
         getEntityManager().getTransaction().begin();
         if (!getEntityManager().contains(entity)) {
             getEntityManager().persist(entity);
             getEntityManager().flush();
+            getEntityManager().refresh(entity);
         }
         getEntityManager().getTransaction().commit();
     }

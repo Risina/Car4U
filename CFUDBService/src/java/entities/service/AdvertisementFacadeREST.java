@@ -81,11 +81,7 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
         ad.setPrice(Long.parseLong(jsonObject.get("price").toString()));
         ad.setTitle(jsonObject.get("title").toString());
         ad.setImageLocation("a");
-        
-        
-        
-        
-        
+     
         super.create(ad);
     }
 
