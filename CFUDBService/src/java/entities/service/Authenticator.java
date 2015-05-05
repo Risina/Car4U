@@ -57,7 +57,7 @@ public class Authenticator {
    
       
    if(user.getPassword().equals(decoded.split(":")[1])) {
-       status = user.getEmail();
+       status = user.getId().toString();
    }
    else {
        status = "No/Invalid authentication information provided";

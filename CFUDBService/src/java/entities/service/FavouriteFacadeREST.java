@@ -5,12 +5,15 @@
  */
 package entities.service;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entities.Favourite;
 import java.util.List;
 import entities.*;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -43,11 +46,7 @@ public class FavouriteFacadeREST extends AbstractFacade<Favourite> {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = (JsonObject)parser.parse(jsonString);
         Favourite favourite = new Favourite();
-        
-//        Long rowCnt= (Long) em.createNativeQuery("select last_insert_id() as last_id FROM Favourite").getSingleResult();
-//        Long id = rowCnt +1;
-//        favourite.setId(id);
-        
+
         User user = em.find(User.class, new Long(jsonObject.get("userId").toString()));
         Advertisement ad = em.find(Advertisement.class, new Long(jsonObject.get("advertisementId").toString()));
         favourite.setUserId(user);
@@ -82,6 +81,53 @@ public class FavouriteFacadeREST extends AbstractFacade<Favourite> {
     public List<Favourite> findAll() {
         return super.findAll();
     }
+    
+    @GET
+    @Path("get/{from}/{to}")
+    @Produces({"application/json"})
+    public String findRange(@PathParam("from") Long userId, @PathParam("to") Long adId) {
+        
+        Object[] details;
+        
+        try {
+            details = (Object[]) em.createNativeQuery("SELECT * FROM Favourite WHERE UserId='"+userId+"' && advertisementId='"+adId+"'").getSingleResult();
+            return Long.toString((long) details[0]);
+        }
+        catch (NoResultException e){
+            return "";
+        }
+        
+    }
+    
+    @GET
+    @Path("get/{userId}")
+    @Produces({"application/json"})
+    public String getFavourites(@PathParam("userId") Long userId) {
+        
+        List<Favourite> details = null;
+        List<String> list = new ArrayList<>();
+        
+        try {
+            details = (List<Favourite>)em.createNamedQuery("Favourite.findByUserId")
+                        .setParameter("userId", em.find(User.class, userId))
+                        .getResultList();
+            
+            
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        if(details.size()>0) {
+            for(Favourite fav: details){
+                list.add(Long.toString(fav.getAdvertisementId().getId()));
+            }
+        }
+        
+        return new Gson().toJson(list);
+    }
+    
+    
 
     @GET
     @Path("{from}/{to}")
