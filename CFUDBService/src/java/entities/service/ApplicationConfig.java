@@ -35,6 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(entities.service.BrandFacadeREST.class);
         resources.add(entities.service.ConditionTypeFacadeREST.class);
         resources.add(entities.service.FavouriteFacadeREST.class);
+        resources.add(entities.service.FileuploadResource.class);
         resources.add(entities.service.FuelTypeFacadeREST.class);
         resources.add(entities.service.LocationFacadeREST.class);
         resources.add(entities.service.TransmissionTypeFacadeREST.class);

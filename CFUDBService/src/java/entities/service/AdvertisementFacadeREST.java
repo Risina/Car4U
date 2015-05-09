@@ -48,9 +48,9 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = (JsonObject)parser.parse(jsonString);
 
-        Long rowCnt= (Long) em.createNativeQuery("SELECT count(1) FROM Advertisement").getSingleResult();
-        Long id = rowCnt +1;
-        ad.setId(id);
+//        Long rowCnt= (Long) em.createNativeQuery("SELECT count(1) FROM Advertisement").getSingleResult();
+//        Long id = rowCnt +1;
+//        ad.setId(id);
         User u = em.find(User.class, new Long(jsonObject.get("userId").toString()));
         ad.setUserId(u);
         
@@ -80,7 +80,7 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
         ad.setModelYear(Short.parseShort(jsonObject.get("modelYear").toString()));
         ad.setPrice(Long.parseLong(jsonObject.get("price").toString()));
         ad.setTitle(jsonObject.get("title").toString());
-        ad.setImageLocation("a");
+        ad.setImageLocation(jsonObject.get("imageName").toString());
      
         super.create(ad);
     }
