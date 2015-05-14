@@ -5,14 +5,13 @@
  */
 package entities.service;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entities.Advertisement;
 import entities.*;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -80,8 +79,16 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
         ad.setModelYear(Short.parseShort(jsonObject.get("modelYear").toString()));
         ad.setPrice(Long.parseLong(jsonObject.get("price").toString()));
         ad.setTitle(jsonObject.get("title").toString());
-        ad.setImageLocation(jsonObject.get("imageName").toString());
-     
+        
+        String imageNmae = jsonObject.get("imageName").toString();
+        if(!imageNmae.equals("\"\""))
+        {
+            ad.setImageLocation(System.getenv("OPENSHIFT_DATA_DIR").toString()+jsonObject.get("imageName").toString()+".jpg");
+        }
+        else {
+            ad.setImageLocation("");
+        }
+      
         super.create(ad);
     }
 
@@ -116,7 +123,9 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
     @Path("{from}/{to}")
     @Produces({"application/json"})
     public List<Advertisement> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
+        List<Advertisement> list = super.findRange(new int[]{from, to});
+        Collections.sort(list, Collections.reverseOrder());
+        return list;
     }
 
     @GET

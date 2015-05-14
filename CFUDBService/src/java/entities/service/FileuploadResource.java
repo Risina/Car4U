@@ -51,7 +51,7 @@ public class FileuploadResource {
     private String writeToFileServer(InputStream inputStream, String fileName) throws IOException {
  
         OutputStream outputStream = null;
-        String qualifiedUploadFilePath = fileName+".jpg";
+        String qualifiedUploadFilePath = System.getenv("OPENSHIFT_DATA_DIR") + fileName+".jpg";
  
         try {
             outputStream = new FileOutputStream(new File(qualifiedUploadFilePath));

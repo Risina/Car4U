@@ -27,7 +27,7 @@ import javax.ws.rs.Produces;
 @Path("entities.brand")
 public class BrandFacadeREST extends AbstractFacade<Brand> {
     @PersistenceContext(unitName = "CFUDBServicePU")
-    private final EntityManager em = Persistence.createEntityManagerFactory("CFUDBServicePU").createEntityManager();;
+    private final EntityManager em = Persistence.createEntityManagerFactory("CFUDBServicePU").createEntityManager();
 
     public BrandFacadeREST() {
         super(Brand.class);

@@ -58,7 +58,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("{id}")
     @Produces({"application/json"})
     public User find(@PathParam("id") Long id) {
-        return super.find(id);
+        
+        User user = em.find(User.class, id);
+        user.setPassword("");
+        return user;
     }
 
     @GET
