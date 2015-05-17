@@ -13,20 +13,20 @@
     <class>entities.Location</class>
     <class>entities.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-<!--    <properties>
+    <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       
-    </properties>-->
+    </properties>
     
-    <properties>
+<!--    <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.5.133.2:3306/car4u?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="adminK15W5Yi"/>
       <property name="javax.persistence.jdbc.password" value="QTPFjA-ArLf_"/>
-    </properties>
+    </properties>-->
   </persistence-unit>
 </persistence>

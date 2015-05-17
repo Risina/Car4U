@@ -98,6 +98,13 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
     public List<Advertisement> getAdByLocation(@PathParam("id") int id) {
         return (List<Advertisement>)em.createNamedQuery("Advertisement.findByLocation").setParameter("locationId", id).getResultList();
     }
+    
+    @GET
+    @Path("user/{id}")
+    @Produces({"application/json"})
+    public List<Advertisement> getAdByUsern(@PathParam("id") long id) {
+        return (List<Advertisement>)em.createNamedQuery("Advertisement.findByUserId").setParameter("userId", id).getResultList();
+    }
 
     @PUT
     @Path("{id}")
