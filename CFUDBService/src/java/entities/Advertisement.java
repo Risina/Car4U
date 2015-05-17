@@ -46,7 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Advertisement.findByEngineCapacity", query = "SELECT a FROM Advertisement a WHERE a.engineCapacity = :engineCapacity"),
     @NamedQuery(name = "Advertisement.findByMilage", query = "SELECT a FROM Advertisement a WHERE a.milage = :milage"),
     @NamedQuery(name = "Advertisement.findByCreatedDate", query = "SELECT a FROM Advertisement a WHERE a.createdDate = :createdDate"),
-    @NamedQuery(name = "Advertisement.findByModifiedDate", query = "SELECT a FROM Advertisement a WHERE a.modifiedDate = :modifiedDate")})
+    @NamedQuery(name = "Advertisement.findByModifiedDate", query = "SELECT a FROM Advertisement a WHERE a.modifiedDate = :modifiedDate"),
+    @NamedQuery(name = "Advertisement.findByLocation", query = "SELECT a FROM Advertisement a WHERE a.userId.locationId.id = :locationId")})
 public class Advertisement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

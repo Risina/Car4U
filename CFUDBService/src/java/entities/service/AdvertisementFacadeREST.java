@@ -91,6 +91,13 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
       
         super.create(ad);
     }
+    
+    @GET
+    @Path("location/{id}")
+    @Produces({"application/json"})
+    public List<Advertisement> getAdByLocation(@PathParam("id") int id) {
+        return (List<Advertisement>)em.createNamedQuery("Advertisement.findByLocation").setParameter("locationId", id).getResultList();
+    }
 
     @PUT
     @Path("{id}")
@@ -123,8 +130,12 @@ public class AdvertisementFacadeREST extends AbstractFacade<Advertisement> {
     @Path("{from}/{to}")
     @Produces({"application/json"})
     public List<Advertisement> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        List<Advertisement> list = super.findRange(new int[]{from, to});
-        Collections.sort(list, Collections.reverseOrder());
+        long rowCnt= (long) em.createNativeQuery("SELECT count(1) FROM Advertisement").getSingleResult();
+        int rowCount = (int)rowCnt;
+        int thisFrom = rowCount - to;
+        int thisTo = rowCount - from;
+        
+        List<Advertisement> list = super.findRange(new int[]{thisFrom, thisTo});
         return list;
     }
 
